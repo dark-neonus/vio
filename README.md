@@ -4,7 +4,7 @@
 
 This project aims to develop and deploy a real-time 6-Degrees-of-Freedom (6-DoF) Visual-Inertial Odometry (VIO) system leveraging deep learning techniques (PyTorch) on a Raspberry Pi 4 (4GB RAM). The system will integrate an autofocus camera and an MPU-6050 IMU to estimate the device's pose in real-time.
 
-**Inspired by the DeepVO paper**, this project seeks to provide a robust and efficient solution for various applications where GPS or radio signals may be unavailable or unreliable.
+**Inspired by the [DeepVO](https://arxiv.org/abs/1709.08429) paper**, this project seeks to provide a robust and efficient solution for various applications where GPS or radio signals may be unavailable or unreliable.
 
 ## Possible Usages
 
