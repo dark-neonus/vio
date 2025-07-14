@@ -76,6 +76,9 @@ WORKDIR /workspace
 # 9. Source ROS2
 RUN echo "source /opt/ros/jazzy/setup.bash" >> /etc/bash.bashrc
 
-# 10. Default shell
+# 10. Init rosdep
+RUN rosdep init && rosdep update
+
+# 11. Default shell
 CMD ["/bin/bash"]
 
