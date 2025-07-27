@@ -1,5 +1,10 @@
 # DL-VIO on RPi4
 
+```
+WARNING
+README is outdated. Currently using full virtual machine with Ubuntu24.04LTS instead of docker container to run gazebo.
+```
+
 ## Real-time 6-DoF Visual-Inertial Odometry using Deep Learning on Raspberry Pi 4
 
 This project aims to develop and deploy a real-time 6-Degrees-of-Freedom (6-DoF) Visual-Inertial Odometry (VIO) system leveraging deep learning techniques (PyTorch) on a Raspberry Pi 4 (4GB RAM). The system will integrate an autofocus camera and an MPU-6050 IMU to estimate the device's pose in real-time.
