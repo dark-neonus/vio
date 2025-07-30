@@ -12,6 +12,22 @@
     <xacro:include filename="materials.xacro" />
     <xacro:include filename="gazebo.xacro" />
 
+    <!-- Add Gazebo plugins for proper physics and joint states -->
+    <gazebo>
+        <!-- Joint state publisher plugin for Gazebo Harmonic -->
+        <plugin name="gz::sim::systems::JointStatePublisher" filename="gz-sim-joint-state-publisher-system">
+        </plugin>
+        
+        <!-- Pose publisher for TF -->
+        <plugin name="gz::sim::systems::PosePublisher" filename="gz-sim-pose-publisher-system">
+            <publish_link_pose>true</publish_link_pose>
+            <publish_collision_pose>false</publish_collision_pose>
+            <publish_visual_pose>false</publish_visual_pose>
+            <use_pose_vector_msg>true</use_pose_vector_msg>
+            <static_publisher>true</static_publisher>
+            <static_update_frequency>1</static_update_frequency>
+        </plugin>
+    </gazebo>
 
 
     <!-- This first link called "world" is empty -->
@@ -46,13 +62,9 @@
                 <box size="0.4 0.4 0.1" />
             </geometry>
         </collision>
-        <!-- <inertial>
+        <!-- Fixed: Use actual box dimensions instead of 0,0 -->
+        <xacro:inertial_box mass="0.5" x="0.4" y="0.4" z="0.1">
             <origin xyz="0 0 0.05" rpy="0 0 0"/>
-            <mass value="12" />
-            <inertia ixx="2.26" ixy="0.0" ixz="0.0" iyy="6.26" iyz="0.0" izz="8.5" />
-        </inertial> -->
-        <xacro:inertial_box mass="0.5" x="0" y="0" z="0.1">
-            <origin xyz="0 0 0.1" rpy="0 0 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -63,11 +75,11 @@
     <!-- - It moves along the X axis -->
     <!-- - We need to specify limits for the motion -->
     <joint name="slider_joint" type="prismatic">
-        <origin xyz="-1.25 0 0.1" rpy="0 0 0"/>
+        <origin xyz="-0.25 0 0.1" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="slider_link"/>
         <axis xyz="1 0 0"/>
-        <limit lower="0" upper="2" velocity="100" effort="100"/> 
+        <limit lower="0" upper="0.5" velocity="100" effort="100"/> 
     </joint>
 
 

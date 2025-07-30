@@ -38,7 +38,8 @@ def generate_launch_description():
         }.items()
     )
     
-    bridge_params = os.path.join(get_package_share_directory(package_name),'config','gz_bridge.yaml')
+    # Fixed: Use correct filename
+    bridge_params = os.path.join(get_package_share_directory(package_name),'config','ros_gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
@@ -54,5 +55,4 @@ def generate_launch_description():
         world_arg,
         gazebo,
         ros_gz_bridge,
-        # ros_gz_image_bridge
     ])
