@@ -5,29 +5,43 @@
   gz_type_name: "gz.msgs.Clock"
   direction: GZ_TO_ROS
 
-# Camera topics - Using current Gazebo topic names (arm_link)
+# Camera topics
 - ros_topic_name: "camera/image_raw"
-  gz_topic_name: "/world/empty/model/test_rb_1/link/arm_link/sensor/camera_sensor/image"
+  gz_topic_name: "/world/empty/model/quadcopter/link/camera_link/sensor/camera_sensor/image"
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "gz.msgs.Image"
   direction: GZ_TO_ROS
 
-- ros_topic_name: "camera/camera_info"
-  gz_topic_name: "/world/empty/model/test_rb_1/link/arm_link/sensor/camera_sensor/camera_info"
+- ros_topic_name: "camera/camera_info"  
+  gz_topic_name: "/world/empty/model/quadcopter/link/camera_link/sensor/camera_sensor/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
   direction: GZ_TO_ROS
 
+# IMU topics
+- ros_topic_name: "imu/data_raw"
+  gz_topic_name: "/world/empty/model/quadcopter/link/imu_link/sensor/imu_sensor/imu"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
+  direction: GZ_TO_ROS
+
+# Velocity control for basic movement
+- ros_topic_name: "cmd_vel"
+  gz_topic_name: "/model/quadcopter/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+
 # Joint states
 - ros_topic_name: "joint_states"
-  gz_topic_name: "/world/empty/model/test_rb_1/joint_state"
+  gz_topic_name: "/world/empty/model/quadcopter/joint_state"
   ros_type_name: "sensor_msgs/msg/JointState"
   gz_type_name: "gz.msgs.Model"
   direction: GZ_TO_ROS
 
 # TF transforms
 - ros_topic_name: "tf"
-  gz_topic_name: "/model/test_rb_1/pose"
+  gz_topic_name: "/model/quadcopter/pose"
   ros_type_name: "tf2_msgs/msg/TFMessage"
   gz_type_name: "gz.msgs.Pose_V"
   direction: GZ_TO_ROS

@@ -89,10 +89,29 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /camera/image_raw
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.1
+      Class: rviz_default_plugins/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: IMU Orientation
+      Queue Size: 10
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Arrow
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /imu/orientation
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    # Changed: Use base_link instead of map for better robot visualization
     Fixed Frame: base_link
     Frame Rate: 30
   Name: root
@@ -138,7 +157,7 @@ Visualization Manager:
       Class: rviz_default_plugins/Orbit
       Distance: 10
       Enable Stereo Rendering:
-        Stereo Eye Separation: 0.05999999865889549
+        Stereo Eye Separation: 0.05999999895858765
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false

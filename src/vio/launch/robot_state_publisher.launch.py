@@ -10,16 +10,11 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    use_ros2_control = LaunchConfiguration('use_ros2_control', default='true')
 
     pkg_vio = get_package_share_directory('vio')
-    xacro_file = os.path.join(pkg_vio, 'urdf', 'test_rb_1.urdf.xacro')
+    xacro_file = os.path.join(pkg_vio, 'urdf', 'quadcopter.urdf.xacro')
 
-    robot_description = Command([
-        'xacro ', xacro_file,
-        ' use_ros2_control:=', use_ros2_control,
-        ' sim_mode:=', use_sim_time
-    ])
+    robot_description = Command(['xacro ', xacro_file])
 
     params = {
         'robot_description': ParameterValue(robot_description, value_type=str),
@@ -35,6 +30,5 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true'),
-        DeclareLaunchArgument('use_ros2_control', default_value='true'),
         robot_state_publisher_node,
     ])

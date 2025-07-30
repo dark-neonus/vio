@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="quadcopter">
+
+    <xacro:include filename="inertial_formulas.xacro" />
+    <xacro:include filename="materials.xacro" />
+    <xacro:include filename="_drone_gazebo.xacro" />
+
+    <!-- Drone properties -->
+    <xacro:property name="body_width" value="0.3" />
+    <xacro:property name="body_height" value="0.1" />
+    <xacro:property name="arm_length" value="0.25" />
+    <xacro:property name="arm_radius" value="0.02" />
+    <xacro:property name="prop_radius" value="0.1" />
+    <xacro:property name="prop_height" value="0.01" />
+
+    <!-- Main body -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${body_width} ${body_width} ${body_height}" />
+            </geometry>
+            <material name="gray" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${body_width} ${body_width} ${body_height}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="1.5" x="${body_width}" y="${body_width}" z="${body_height}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- Front Right Propeller -->
+    <link name="front_right_prop">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+            <material name="orange" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.05" length="${prop_height}" radius="${prop_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name="front_right_prop_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="front_right_prop"/>
+        <origin xyz="${arm_length} ${arm_length} ${body_height/2 + 0.02}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- Front Left Propeller -->
+    <link name="front_left_prop">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+            <material name="orange" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.05" length="${prop_height}" radius="${prop_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name="front_left_prop_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="front_left_prop"/>
+        <origin xyz="${arm_length} ${-arm_length} ${body_height/2 + 0.02}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- Rear Left Propeller -->
+    <link name="rear_left_prop">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+            <material name="orange" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.05" length="${prop_height}" radius="${prop_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name="rear_left_prop_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rear_left_prop"/>
+        <origin xyz="${-arm_length} ${-arm_length} ${body_height/2 + 0.02}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- Rear Right Propeller -->
+    <link name="rear_right_prop">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+            <material name="orange" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${prop_height}" radius="${prop_radius}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.05" length="${prop_height}" radius="${prop_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name="rear_right_prop_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rear_right_prop"/>
+        <origin xyz="${-arm_length} ${arm_length} ${body_height/2 + 0.02}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- Camera gimbal -->
+    <joint name="camera_joint" type="fixed">
+        <origin xyz="0.1 0 -0.05" rpy="0 0.3 0"/>
+        <parent link="base_link"/>
+        <child link="camera_link"/>        
+    </joint>
+
+    <link name="camera_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.05 0.05 0.03" />
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.05 0.05 0.03" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.05" x="0.05" y="0.05" z="0.03">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- IMU sensor link -->
+    <joint name="imu_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="imu_link"/>        
+    </joint>
+
+    <link name="imu_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.02 0.02 0.01" />
+            </geometry>
+            <material name="blue" />
+        </visual>
+        <xacro:inertial_box mass="0.01" x="0.02" y="0.02" z="0.01">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+</robot>

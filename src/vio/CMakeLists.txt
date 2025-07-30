@@ -7,30 +7,44 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
-  set(ament_cmake_cpplint_FOUND TRUE)
+  set(ament_cmake_cpylint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+# Install directories
 install(DIRECTORY
   launch
   worlds
   rviz
   urdf
-#  meshes
   config
   DESTINATION share/${PROJECT_NAME}
 )
+
+# Install Python scripts with proper permissions
+install(PROGRAMS
+  scripts/circle_flight_controller.py
+  scripts/imu_monitor.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Create symlinks for executables without .py extension
+install(CODE "
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+    circle_flight_controller.py
+    \${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/circle_flight_controller
+  )
+")
+
+install(CODE "
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+    imu_monitor.py
+    \${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/imu_monitor
+  )
+")
 
 ament_package()
