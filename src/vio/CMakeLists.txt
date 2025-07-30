@@ -26,10 +26,10 @@ endif()
 install(DIRECTORY
   launch
   worlds
-#  rviz
+  rviz
   urdf
 #  meshes
-#  config
+  config
   DESTINATION share/${PROJECT_NAME}
 )
 

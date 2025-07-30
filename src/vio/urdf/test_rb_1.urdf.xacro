@@ -10,20 +10,21 @@
     <!-- This will include all the contents of example_include.xacro first. Go check it out! -->
     <xacro:include filename="inertial_formulas.xacro" />
     <xacro:include filename="materials.xacro" />
+    <xacro:include filename="gazebo.xacro" />
 
 
 
     <!-- This first link called "world" is empty -->
-    <!-- <link name="world"></link> -->
+    <link name="world"></link>
 
 
     <!-- A simple fixed joint from our empty world link, to our base. -->
     <!-- The base origin is offset from the world origin. -->
-    <!-- <joint name="base_joint" type="fixed">
+    <joint name="base_joint" type="fixed">
         <origin xyz="1.5 1.0 0" rpy="0 0 0"/>
         <parent link="world"/>
         <child link="base_link"/>        
-    </joint> -->
+    </joint>
 
 
     <!-- base_link is a large rectangular plate. Some things to note: -->
