@@ -141,7 +141,7 @@
         <axis xyz="0 0 1"/>
     </joint>
 
-    <!-- Camera gimbal -->
+    <!-- Camera gimbal - ADD COLLISION -->
     <joint name="camera_joint" type="fixed">
         <origin xyz="0.1 0 -0.05" rpy="0 0.3 0"/>
         <parent link="base_link"/>
@@ -156,6 +156,7 @@
             </geometry>
             <material name="white" />
         </visual>
+        <!-- ADD COLLISION - This is missing and needed for sensors -->
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
@@ -167,7 +168,7 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- IMU sensor link -->
+    <!-- IMU sensor link - ADD COLLISION -->
     <joint name="imu_joint" type="fixed">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <parent link="base_link"/>
@@ -182,6 +183,13 @@
             </geometry>
             <material name="blue" />
         </visual>
+        <!-- ADD COLLISION - This is missing and needed for sensors -->
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.02 0.02 0.01" />
+            </geometry>
+        </collision>
         <xacro:inertial_box mass="0.01" x="0.02" y="0.02" z="0.01">
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_box>

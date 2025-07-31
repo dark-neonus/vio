@@ -32,6 +32,8 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(pkg_vio, 'launch', 'camera_view.launch.py'))
     )
 
+    # REMOVED: flight_controller_node - it's already in circle_flight.launch.py
+
     # Aggregate all launches into one
     return LaunchDescription([
         rsp_launch,
@@ -39,4 +41,5 @@ def generate_launch_description():
         spawn_entity_launch,
         rviz_launch,
         camera_view_launch,
+        # REMOVED duplicate controller
     ])
