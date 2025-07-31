@@ -29,6 +29,8 @@ install(DIRECTORY
 install(PROGRAMS
   scripts/circle_flight_controller.py
   scripts/imu_monitor.py
+  scripts/pattern_flight_controller.py
+  scripts/pattern_commander.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -44,6 +46,20 @@ install(CODE "
   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
     imu_monitor.py
     \${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/imu_monitor
+  )
+")
+
+install(CODE "
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+    pattern_flight_controller.py
+    \${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/pattern_flight_controller
+  )
+")
+
+install(CODE "
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+    pattern_commander.py
+    \${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/pattern_commander
   )
 ")
 
