@@ -2,6 +2,7 @@ import os
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
@@ -32,7 +33,21 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(pkg_vio, 'launch', 'camera_view.launch.py'))
     )
 
-    # REMOVED: flight_controller_node - it's already in circle_flight.launch.py
+    # ADD: Circle flight controller for full simulation
+    circle_controller = Node(
+        package='vio',
+        executable='circle_flight_controller',
+        name='circle_flight_controller',
+        output='screen'
+    )
+
+    # ADD: IMU monitor for terminal output
+    imu_monitor = Node(
+        package='vio',
+        executable='imu_monitor',
+        name='imu_monitor',
+        output='screen'
+    )
 
     # Aggregate all launches into one
     return LaunchDescription([
@@ -41,5 +56,6 @@ def generate_launch_description():
         spawn_entity_launch,
         rviz_launch,
         camera_view_launch,
-        # REMOVED duplicate controller
+        circle_controller,
+        imu_monitor,
     ])

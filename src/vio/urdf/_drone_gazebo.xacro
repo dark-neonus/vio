@@ -17,13 +17,18 @@
             <static_update_frequency>1</static_update_frequency>
         </plugin>
 
+        <!-- ADD: IMU System Plugin -->
+        <plugin name="gz::sim::systems::Imu" filename="gz-sim-imu-system">
+        </plugin>
+
         <!-- Simple velocity control that can work for basic flight -->
         <plugin name="gz::sim::systems::VelocityControl" filename="gz-sim-velocity-control-system">
         </plugin>
     </gazebo>
 
-    <!-- Camera sensor - MOVE TO BASE_LINK like working config -->
+    <!-- Both sensors on base_link (where they actually work) -->
     <gazebo reference="base_link">
+        <!-- Camera sensor (WORKING) -->
         <sensor name="camera_sensor" type="camera">
             <always_on>true</always_on>
             <visualize>true</visualize>
@@ -41,13 +46,12 @@
                 </clip>
             </camera>
         </sensor>
-    </gazebo>
-
-    <!-- IMU sensor - keep on imu_link -->
-    <gazebo reference="imu_link">
+        
+        <!-- IMU sensor - OFFICIALLY ON BASE_LINK -->
         <sensor name="imu_sensor" type="imu">
             <always_on>true</always_on>
-            <update_rate>100</update_rate>
+            <update_rate>100.0</update_rate>
+            <visualize>true</visualize>
         </sensor>
     </gazebo>
 
