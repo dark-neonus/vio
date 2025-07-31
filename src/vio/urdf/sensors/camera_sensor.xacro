@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Camera sensor macro with FPV drone characteristics -->
+    <xacro:macro name="camera_sensor" params="
+        parent_link:='base_link'
+        sensor_name:='camera_sensor'
+        topic_prefix:='camera'
+        update_rate:='60'
+        horizontal_fov:='1.57'
+        image_width:='640'
+        image_height:='480'
+        image_format:='R8G8B8'
+        near_clip:='0.05'
+        far_clip:='100'
+        noise_mean:='0.0'
+        noise_stddev:='0.02'
+        distortion_k1:='-0.1'
+        distortion_k2:='0.05'
+        distortion_k3:='-0.01'
+        distortion_p1:='0.001'
+        distortion_p2:='-0.001'">
+
+        <gazebo reference="${parent_link}">
+            <sensor name="${sensor_name}" type="camera">
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+                <update_rate>${update_rate}</update_rate>
+                <camera>
+                    <horizontal_fov>${horizontal_fov}</horizontal_fov>
+                    <image>
+                        <width>${image_width}</width>
+                        <height>${image_height}</height>
+                        <format>${image_format}</format>
+                    </image>
+                    <clip>
+                        <near>${near_clip}</near>
+                        <far>${far_clip}</far>
+                    </clip>
+                    <!-- FPV Camera distortion (typical for wide-angle lenses) -->
+                    <distortion>
+                        <k1>${distortion_k1}</k1>
+                        <k2>${distortion_k2}</k2>
+                        <k3>${distortion_k3}</k3>
+                        <p1>${distortion_p1}</p1>
+                        <p2>${distortion_p2}</p2>
+                        <center>0.5 0.5</center>
+                    </distortion>
+                    <!-- Image noise (sensor noise, compression artifacts) -->
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>${noise_mean}</mean>
+                        <stddev>${noise_stddev}</stddev>
+                    </noise>
+                    <!-- Motion blur simulation -->
+                    <lens>
+                        <type>stereographic</type>
+                        <scale_to_hfov>true</scale_to_hfov>
+                        <cutoff_angle>1.5708</cutoff_angle>
+                        <env_texture_size>256</env_texture_size>
+                    </lens>
+                </camera>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- IMU sensor macro with MPU6050-like characteristics -->
+    <xacro:macro name="imu_sensor" params="
+        parent_link:='base_link'
+        sensor_name:='imu_sensor'
+        topic_name:='imu/data'
+        update_rate:='100'
+        always_on:='true'
+        visualize:='false'
+        frame_id:='${parent_link}'
+        gyro_noise_density:='0.0003394'
+        gyro_random_walk:='0.000038785'
+        gyro_bias_correlation_time:='1000.0'
+        gyro_turn_on_bias_sigma:='0.0087'
+        accel_noise_density:='0.004'
+        accel_random_walk:='0.006'
+        accel_bias_correlation_time:='300.0'
+        accel_turn_on_bias_sigma:='0.196'">
+
+        <gazebo reference="${parent_link}">
+            <sensor name="${sensor_name}" type="imu">
+                <always_on>${always_on}</always_on>
+                <update_rate>${update_rate}</update_rate>
+                <visualize>${visualize}</visualize>
+                <topic>${topic_name}</topic>
+                <gz_frame_id>${frame_id}</gz_frame_id>
+                <imu>
+                    <!-- Angular velocity (gyroscope) - MPU6050 characteristics -->
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>${gyro_noise_density}</stddev>
+                                <bias_mean>0.0</bias_mean>
+                                <bias_stddev>${gyro_turn_on_bias_sigma}</bias_stddev>
+                                <dynamic_bias_stddev>${gyro_random_walk}</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>${gyro_bias_correlation_time}</dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>${gyro_noise_density}</stddev>
+                                <bias_mean>0.0</bias_mean>
+                                <bias_stddev>${gyro_turn_on_bias_sigma}</bias_stddev>
+                                <dynamic_bias_stddev>${gyro_random_walk}</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>${gyro_bias_correlation_time}</dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>${gyro_noise_density}</stddev>
+                                <bias_mean>0.0</bias_mean>
+                                <bias_stddev>${gyro_turn_on_bias_sigma}</bias_stddev>
+                                <dynamic_bias_stddev>${gyro_random_walk}</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>${gyro_bias_correlation_time}</dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <!-- Linear acceleration (accelerometer) - MPU6050 characteristics -->
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>${accel_noise_density}</stddev>
+                                <bias_mean>0.0</bias_mean>
+                                <bias_stddev>${accel_turn_on_bias_sigma}</bias_stddev>
+                                <dynamic_bias_stddev>${accel_random_walk}</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>${accel_bias_correlation_time}</dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>${accel_noise_density}</stddev>
+                                <bias_mean>0.0</bias_mean>
+                                <bias_stddev>${accel_turn_on_bias_sigma}</bias_stddev>
+                                <dynamic_bias_stddev>${accel_random_walk}</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>${accel_bias_correlation_time}</dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>${accel_noise_density}</stddev>
+                                <bias_mean>0.0</bias_mean>
+                                <bias_stddev>${accel_turn_on_bias_sigma}</bias_stddev>
+                                <dynamic_bias_stddev>${accel_random_walk}</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>${accel_bias_correlation_time}</dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                    <!-- Orientation reference frame -->
+                    <orientation_reference_frame>
+                        <localization>ENU</localization>
+                        <custom_rpy parent_frame="base_link">0 0 0</custom_rpy>
+                        <grav_dir_x parent_frame="base_link">1 0 0</grav_dir_x>
+                    </orientation_reference_frame>
+                </imu>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

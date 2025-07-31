@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Gazebo systems and plugins for the drone -->
+    <xacro:macro name="drone_systems" params="
+        publish_joint_states:='true'
+        publish_link_poses:='true'
+        publish_visual_poses:='false'
+        publish_collision_poses:='false'
+        use_pose_vector_msg:='true'
+        static_publisher:='true'
+        static_update_frequency:='100'
+        enable_velocity_control:='true'
+        enable_imu_system:='true'">
+
+        <gazebo>
+            <!-- Joint state publisher plugin -->
+            <xacro:if value="${publish_joint_states}">
+                <plugin name="gz::sim::systems::JointStatePublisher" filename="gz-sim-joint-state-publisher-system">
+                </plugin>
+            </xacro:if>
+            
+            <!-- Pose publisher for TF -->
+            <plugin name="gz::sim::systems::PosePublisher" filename="gz-sim-pose-publisher-system">
+                <publish_link_pose>${publish_link_poses}</publish_link_pose>
+                <publish_collision_pose>${publish_collision_poses}</publish_collision_pose>
+                <publish_visual_pose>${publish_visual_poses}</publish_visual_pose>
+                <use_pose_vector_msg>${use_pose_vector_msg}</use_pose_vector_msg>
+                <static_publisher>${static_publisher}</static_publisher>
+                <static_update_frequency>${static_update_frequency}</static_update_frequency>
+            </plugin>
+
+            <!-- IMU System Plugin -->
+            <xacro:if value="${enable_imu_system}">
+                <plugin name="gz::sim::systems::Imu" filename="gz-sim-imu-system">
+                </plugin>
+            </xacro:if>
+
+            <!-- Velocity control system -->
+            <xacro:if value="${enable_velocity_control}">
+                <plugin name="gz::sim::systems::VelocityControl" filename="gz-sim-velocity-control-system">
+                </plugin>
+            </xacro:if>
+
+            <!-- Physics system (optional, usually handled by world) -->
+            <!-- plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system">
+            </plugin -->
+
+            <!-- Wind effects (optional for realism) -->
+            <!-- plugin name="gz::sim::systems::WindEffects" filename="gz-sim-wind-effects-system">
+                <force_approximate>true</force_approximate>
+                <horizontal>
+                    <magnitude>
+                        <time_for_rise>10</time_for_rise>
+                        <sin>
+                            <amplitude_percent>0.05</amplitude_percent>
+                            <period>60</period>
+                        </sin>
+                    </magnitude>
+                    <direction>
+                        <time_for_rise>30</time_for_rise>
+                        <sin>
+                            <amplitude>5</amplitude>
+                            <period>20</period>
+                        </sin>
+                    </direction>
+                </horizontal>
+                <vertical>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.03</stddev>
+                    </noise>
+                </vertical>
+            </plugin -->
+        </gazebo>
+    </xacro:macro>
+
+</robot>

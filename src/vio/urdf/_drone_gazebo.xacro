@@ -1,61 +1,48 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- Add required Gazebo plugins at the model level -->
-    <gazebo>
-        <!-- Joint state publisher plugin -->
-        <plugin name="gz::sim::systems::JointStatePublisher" filename="gz-sim-joint-state-publisher-system">
-        </plugin>
-        
-        <!-- Pose publisher for TF -->
-        <plugin name="gz::sim::systems::PosePublisher" filename="gz-sim-pose-publisher-system">
-            <publish_link_pose>true</publish_link_pose>
-            <publish_collision_pose>false</publish_collision_pose>
-            <publish_visual_pose>false</publish_visual_pose>
-            <use_pose_vector_msg>true</use_pose_vector_msg>
-            <static_publisher>true</static_publisher>
-            <static_update_frequency>1</static_update_frequency>
-        </plugin>
+    <!-- Include sensor and system macros -->
+    <xacro:include filename="sensors/camera_sensor.xacro" />
+    <xacro:include filename="sensors/imu_sensor.xacro" />
+    <xacro:include filename="systems/drone_systems.xacro" />
 
-        <!-- ADD: IMU System Plugin -->
-        <plugin name="gz::sim::systems::Imu" filename="gz-sim-imu-system">
-        </plugin>
+    <!-- Apply drone systems -->
+    <xacro:drone_systems 
+        publish_joint_states="true"
+        publish_link_poses="true"
+        static_update_frequency="100"
+        enable_velocity_control="true"
+        enable_imu_system="true" />
 
-        <!-- Simple velocity control that can work for basic flight -->
-        <plugin name="gz::sim::systems::VelocityControl" filename="gz-sim-velocity-control-system">
-        </plugin>
-    </gazebo>
+    <!-- Apply camera sensor to base_link (working configuration) -->
+    <xacro:camera_sensor 
+        parent_link="base_link"
+        sensor_name="camera_sensor"
+        topic_prefix="camera"
+        update_rate="60"
+        horizontal_fov="1.57"
+        image_width="640"
+        image_height="480"
+        noise_stddev="0.03"
+        distortion_k1="-0.15"
+        distortion_k2="0.08"
+        distortion_k3="-0.02" />
 
-    <!-- Both sensors on base_link (where they actually work) -->
-    <gazebo reference="base_link">
-        <!-- Camera sensor (WORKING) -->
-        <sensor name="camera_sensor" type="camera">
-            <always_on>true</always_on>
-            <visualize>true</visualize>
-            <update_rate>30</update_rate>
-            <camera>
-                <horizontal_fov>1.047</horizontal_fov>
-                <image>
-                    <width>640</width>
-                    <height>480</height>
-                    <format>R8G8B8</format>
-                </image>
-                <clip>
-                    <near>0.1</near>
-                    <far>100</far>
-                </clip>
-            </camera>
-        </sensor>
-        
-        <!-- IMU sensor - OFFICIALLY ON BASE_LINK -->
-        <sensor name="imu_sensor" type="imu">
-            <always_on>true</always_on>
-            <update_rate>100.0</update_rate>
-            <visualize>true</visualize>
-        </sensor>
-    </gazebo>
+    <!-- Apply IMU sensor to base_link (working configuration) -->
+    <xacro:imu_sensor 
+        parent_link="base_link"
+        sensor_name="imu_sensor"
+        topic_name="imu/data"
+        update_rate="200"
+        frame_id="base_link"
+        gyro_noise_density="0.0003394"
+        gyro_random_walk="0.000038785"
+        gyro_turn_on_bias_sigma="0.0087"
+        accel_noise_density="0.004"
+        accel_random_walk="0.006"
+        accel_turn_on_bias_sigma="0.196" />
 
-    <!-- Add material properties for all links -->
+    <!-- Material properties for all links -->
     <gazebo reference="base_link">
         <material>Gazebo/Grey</material>
         <mu1>0.2</mu1>
