@@ -31,6 +31,7 @@ install(PROGRAMS
   scripts/imu_monitor.py
   scripts/pattern_flight_controller.py
   scripts/pattern_commander.py
+  scripts/dataset_recorder.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -60,6 +61,13 @@ install(CODE "
   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
     pattern_commander.py
     \${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/pattern_commander
+  )
+")
+
+install(CODE "
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+    dataset_recorder.py
+    \${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/dataset_recorder
   )
 ")
 
